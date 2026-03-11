@@ -1,32 +1,31 @@
-use std::error::Error;
-use std::{env, fs};
+use minigrep::Config;
+use std::{env, process};
 
-struct Config {
-    // query is the text to be searched,
-    // and file_path is the path to a certain file.
-    query: String,
-    file_path: String,
-}
-
-fn parse_config(args: &[String]) -> Config {
-    Config {
-        query: args[1].to_string(),
-        file_path: args[2].to_string(),
-    }
-}
-
-fn main() -> Result<(), Box<dyn Error>> {
-    // We store all arguments in data, a Vec<String>.
+// 4. The Organizer
+fn main() {
+    // Store all arguments in data, a Vec<String>.
     let data: Vec<String> = env::args().collect();
 
-    // We parse the arguments into a Config struct.
-    let config = parse_config(&data);
+    // Main task 1: Fetch the input from arguments.
+    // Error handling 1: Data Extraction
+    // We want to extract a Config result here.
+    let config = Config::build(&data).unwrap_or_else(|e| {
+        println!("{e}");
+        process::exit(1);
+    });
 
-    // We then read the file.
-    let file_content = fs::read_to_string(config.file_path)?;
+    // Main task 2: Read the file from the given filename.
+    // Error handling 2: Side-Effect Verification
+    // We want to extract the error only.
+    if let Err(e) = minigrep::run(config) {
+        println!("Application error: {e}");
+        process::exit(1);
+    }
 
-    // Print as a test.
-    println!("You are going to search text {:?}", config.query);
-    println!("The file has a length {:?}", file_content.len());
-    Ok(())
+    // It's equivalent to this code below:
+    // run(config).unwrap_or_else(|err| {
+    //    eprintln!("Application error: {err}");
+    //    process::exit(1);
+    //});
+    // But it's not considered idiomatic in Rust,
 }
