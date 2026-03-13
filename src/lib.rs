@@ -23,8 +23,8 @@ impl Config {
     }
 }
 
-// 3. The Execution Logic
-pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+// 3. The Reading Logic
+pub fn read(config: Config) -> Result<(), Box<dyn Error>> {
     // Read the file.
     let contents = fs::read_to_string(&config.file_path)?;
 
@@ -32,4 +32,30 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!("You are going to search text {:?}.", config.query);
     println!("The file has a length of {:?}.", contents.len());
     Ok(())
+}
+
+// 4. The Searching logic
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    vec![]
+}
+
+// 5. Test Modules
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let test_query = "temparate";
+        let test_contents = "\
+        Shall I compare thee to a summer's day?
+        Thou art more lovely and more temperate:
+        Rough winds do shake the darling buds of May,
+        And summer's lease hath all too short a date;";
+
+        assert_eq!(
+            search(test_query, test_contents),
+            vec!["Thou art more lovely and more temperate:"]
+        );
+    }
 }
