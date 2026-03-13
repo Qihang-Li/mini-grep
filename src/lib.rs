@@ -36,7 +36,10 @@ pub fn read(config: Config) -> Result<(), Box<dyn Error>> {
 
 // 4. The Searching logic
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    vec![]
+    contents
+        .lines()
+        .filter(|&line| line.contains(query))
+        .collect()
 }
 
 // 5. Test Modules
@@ -46,12 +49,12 @@ mod tests {
 
     #[test]
     fn one_result() {
-        let test_query = "temparate";
+        let test_query = "temper";
         let test_contents = "\
         Shall I compare thee to a summer's day?
-        Thou art more lovely and more temperate:
-        Rough winds do shake the darling buds of May,
-        And summer's lease hath all too short a date;";
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date;";
 
         assert_eq!(
             search(test_query, test_contents),
