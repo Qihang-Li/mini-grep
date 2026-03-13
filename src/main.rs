@@ -17,7 +17,7 @@ fn main() {
     // Main task 2: Read the file from the given filename.
     // Error handling 2: Side-Effect Verification
     // We want to extract the error only.
-    if let Err(e) = minigrep::read(config) {
+    if let Err(e) = minigrep::run(config) {
         println!("Application error: {e}");
         process::exit(1);
     }

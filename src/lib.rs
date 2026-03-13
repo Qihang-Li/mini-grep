@@ -1,7 +1,7 @@
 use std::error::Error;
 use std::fs;
 
-// 1. Data Structure
+// 1. Data structure
 pub struct Config {
     // query is the text to be searched,
     // and file_path is the path to a certain file.
@@ -23,18 +23,25 @@ impl Config {
     }
 }
 
-// 3. The Reading Logic
-pub fn read(config: Config) -> Result<(), Box<dyn Error>> {
+// 3. The main logic
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     // Read the file.
     let contents = fs::read_to_string(&config.file_path)?;
 
     // Print as a test.
-    println!("You are going to search text {:?}.", config.query);
-    println!("The file has a length of {:?}.", contents.len());
+    println!("You are going to search text **{}**.", config.query);
+    println!("The file has a length of {} characters.", contents.len());
+    println!("================================");
+
+    // Print the result
+    let result = search(&config.query, &contents);
+    for item in result {
+        println!("{:?}", item);
+    }
     Ok(())
 }
 
-// 4. The Searching logic
+// 4. The searching logic
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
@@ -42,7 +49,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
-// 5. Test Modules
+// A. Test Modules
 #[cfg(test)]
 mod tests {
     use super::*;
