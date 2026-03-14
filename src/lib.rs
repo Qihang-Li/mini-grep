@@ -51,7 +51,11 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 // This is a case insensitive version of the search logic.
 pub fn search2<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    unimplemented!()
+    let lower_query = query.to_lowercase();
+    contents
+        .lines()
+        .filter(|&line| line.to_lowercase().contains(&lower_query))
+        .collect()
 }
 
 // A. Test Modules
