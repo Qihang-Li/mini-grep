@@ -1,3 +1,4 @@
+use std::env;
 use std::error::Error;
 use std::fs;
 
@@ -7,17 +8,19 @@ pub struct Config {
     // and file_path is the path to a certain file.
     query: String,
     file_path: String,
+    ignore_case: bool,
 }
 
 // 2. Set up logic
 impl Config {
     pub fn build(args: &[String]) -> Result<Self, &'static str> {
-        if args.len() != 3 {
+        if args.len() < 3 {
             return Err("Wrong input. Please specify the string and file to search.");
         } else {
             Ok(Self {
                 query: args[1].to_string(),
                 file_path: args[2].to_string(),
+                ignore_case: env::var("IGNORE_CASE").is_ok(),
             })
         }
     }
@@ -34,7 +37,12 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!("================================");
 
     // Print the result
-    let result = search(&config.query, &contents);
+    let result = if config.ignore_case {
+        search2(&config.query, &contents)
+    } else {
+        search(&config.query, &contents)
+    };
+
     for item in result {
         println!("{:?}", item);
     }
