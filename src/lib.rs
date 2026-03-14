@@ -49,13 +49,18 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
+// This is a case insensitive version of the search logic.
+pub fn search2<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    unimplemented!()
+}
+
 // A. Test Modules
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn one_result() {
+    fn case_sensitive() {
         let test_query = "temper";
         let test_contents = "\
         Shall I compare thee to a summer's day?
@@ -65,6 +70,21 @@ And summer's lease hath all too short a date;";
 
         assert_eq!(
             search(test_query, test_contents),
+            vec!["Thou art more lovely and more temperate:"]
+        );
+    }
+
+    #[test]
+    fn case_insensitive() {
+        let test_query = "tEmpEr";
+        let test_contents = "\
+        Shall I compare thee to a summer's day?
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date;";
+
+        assert_eq!(
+            search2(test_query, test_contents),
             vec!["Thou art more lovely and more temperate:"]
         );
     }
