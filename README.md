@@ -49,3 +49,12 @@ cargo test --locked
 ```
 
 The two unit tests cover case-sensitive and case-insensitive search.
+
+## License
+
+The Rust source code in this project is licensed under the [MIT License](LICENSE).
+
+Portions are adapted from [The Rust Programming Language](https://github.com/rust-lang/book),
+used under its MIT license.
+
+Bundled sample texts are excluded from this license and retain their original copyright status.
