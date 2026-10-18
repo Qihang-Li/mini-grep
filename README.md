@@ -1,4 +1,4 @@
-# minigrep
+# Mini-Grep
 
 A small command-line text search tool written in Rust, based on the
 I/O project in Chapter 12 of *The Rust Programming Language*.
