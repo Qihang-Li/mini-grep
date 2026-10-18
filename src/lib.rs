@@ -15,7 +15,7 @@ pub struct Config {
 impl Config {
     pub fn build(args: &[String]) -> Result<Self, &'static str> {
         if args.len() < 3 {
-            return Err("Wrong input. Please specify the string and file to search.");
+            Err("Wrong input. Please specify the string and file to search.")
         } else {
             Ok(Self {
                 query: args[1].to_string(),
@@ -31,20 +31,15 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     // Read the file.
     let contents = fs::read_to_string(&config.file_path)?;
 
-    // Print as a test.
-    println!("You are going to search text **{}**.", config.query);
-    println!("The file has a length of {} characters.", contents.len());
-    println!("================================");
-
     // Print the result
     let result = if config.ignore_case {
-        search2(&config.query, &contents)
+        search_case_insensitive(&config.query, &contents)
     } else {
         search(&config.query, &contents)
     };
 
     for item in result {
-        println!("{:?}", item);
+        println!("{item}");
     }
     Ok(())
 }
@@ -58,7 +53,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 }
 
 // This is a case insensitive version of the search logic.
-pub fn search2<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let lower_query = query.to_lowercase();
     contents
         .lines()
@@ -96,7 +91,7 @@ Rough winds do shake the darling buds of May,
 And summer's lease hath all too short a date;";
 
         assert_eq!(
-            search2(test_query, test_contents),
+            search_case_insensitive(test_query, test_contents),
             vec!["Thou art more lovely and more temperate:"]
         );
     }

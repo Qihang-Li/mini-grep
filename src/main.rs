@@ -20,11 +20,4 @@ fn main() {
         eprintln!("Application error: {e}");
         process::exit(1);
     }
-
-    // It's equivalent to this code below:
-    // read(config).unwrap_or_else(|err| {
-    //    eprintln!("Application error: {err}");
-    //    process::exit(1);
-    //});
-    // But it's not considered idiomatic in Rust,
 }
