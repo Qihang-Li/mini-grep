@@ -1,4 +1,0 @@
-You are going to search text **temper**.
-The file has a length of 626 characters.
-================================
-"Thou art more lovely and more temperate:"
