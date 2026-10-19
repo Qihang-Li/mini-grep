@@ -29,15 +29,28 @@ Both examples print:
 Thou art more lovely and more temperate:
 ```
 
+## Sample inputs
+
+- `Sonnet_18.txt` contains William Shakespeare's *Sonnet 18* and is used
+  in the usage examples.
+  [Reference text](https://www.folger.edu/explore/shakespeares-works/shakespeares-sonnets/read/18/).
+- `Zen_of_Python` contains Tim Peters' *The Zen of Python*
+  ([PEP 20](https://peps.python.org/pep-0020/)) for additional manual searches.
+  PEP 20 places its text in the public domain.
+
+The unit tests use inline text and do not read these files.
+
 ## Behavior
 
+- Accepts exactly two positional arguments: a query and a file path.
 - Searches one UTF-8 file for a literal substring.
 - Reads the entire file into memory.
 - Prints matching lines to stdout in their original order and capitalization.
 - Enables case-insensitive matching by lowercasing the query and each line.
 - Setting `IGNORE_CASE=0` still enables case-insensitive matching;
   unset the variable to restore case-sensitive matching.
-- Reports missing arguments and file-reading errors to stderr and exits with status 1.
+- Reports invalid argument counts and file-reading errors to stderr
+  and exits with status 1.
 - Exits with status 0 after a successful search, including when no lines match.
 
 ## Development checks
@@ -48,7 +61,9 @@ cargo clippy --all-targets --locked
 cargo test --locked
 ```
 
-The two unit tests cover case-sensitive and case-insensitive search.
+The unit tests cover case-sensitive and case-insensitive matching,
+multiple matching lines, searches with no matches, and rejection of
+extra command-line arguments.
 
 ## License
 
